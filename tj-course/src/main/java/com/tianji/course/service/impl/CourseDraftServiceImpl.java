@@ -37,9 +37,9 @@ import com.tianji.course.domain.vo.CourseSaveVO;
 import com.tianji.course.domain.vo.NameExistVO;
 import com.tianji.course.mapper.*;
 import com.tianji.course.service.*;
-import io.seata.spring.annotation.GlobalTransactional;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,11 +66,15 @@ public class CourseDraftServiceImpl extends ServiceImpl<CourseDraftMapper, Cours
     private final CourseContentDraftMapper courseContentDraftMapper;
     private final CourseContentMapper courseContentMapper;
     private final ValidatorFactory validatorFactory;
-    private final ICourseCatalogueDraftService courseCatalogueDraftService;
-    private final ICourseTeacherDraftService courseTeacherDraftService;
     private final CourseCatalogueDraftMapper courseCatalogueDraftMapper;
     private final CourseTeacherDraftMapper courseTeacherDraftMapper;
     private final CourseCataSubjectDraftMapper courseCataSubjectDraftMapper;
+
+    @Resource
+    private ICourseTeacherDraftService courseTeacherDraftService;
+
+    @Resource
+    private ICourseCatalogueDraftService courseCatalogueDraftService;
 
     @Resource
     private UserClient userClient;
@@ -78,7 +82,7 @@ public class CourseDraftServiceImpl extends ServiceImpl<CourseDraftMapper, Cours
     @Resource
     private ICategoryService categoryService;
 
-    @Resource
+    @Autowired(required = false)
     private RabbitMqHelper rabbitMqHelper;
 
     @Resource
@@ -457,7 +461,7 @@ public class CourseDraftServiceImpl extends ServiceImpl<CourseDraftMapper, Cours
         rabbitMqHelper.send(MqConstants.Exchange.COURSE_EXCHANGE, MqConstants.Key.COURSE_DOWN_KEY, id);
     }
 
-    @GlobalTransactional
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {DbException.class, Exception.class})
     public void copySubject2Draft(Long courseId) {
         // 1.查询课程有关的小节信息
         List<Long> sectionIds = courseCatalogueDraftMapper.getSectionIdByCourseId(courseId);

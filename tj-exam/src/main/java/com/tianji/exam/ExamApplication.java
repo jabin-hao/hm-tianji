@@ -14,7 +14,6 @@ import java.net.UnknownHostException;
 @Slf4j
 @MapperScan("com.tianji.exam.mapper")
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.tianji.api.client")
 public class ExamApplication {
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplicationBuilder(ExamApplication.class).build(args);

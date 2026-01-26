@@ -11,6 +11,7 @@ import com.tianji.learning.service.ISignRecordService;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,9 @@ import java.util.List;
 @Slf4j
 public class SignRecordServiceImpl implements ISignRecordService {
     private final StringRedisTemplate redisTemplate;
-    @Resource
-    private final RabbitMqHelper mqHelper;
+
+    @Autowired(required = false)
+    private RabbitMqHelper mqHelper;
     @Override
     public SignResultVO addSignRecords() {
         //1.获取登录用户

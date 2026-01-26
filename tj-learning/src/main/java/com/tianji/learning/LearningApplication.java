@@ -16,7 +16,6 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableScheduling
 @MapperScan("com.tianji.learning.mapper")
-@EnableFeignClients(basePackages = "com.tianji.api.client")
 @EnableAspectJAutoProxy(exposeProxy = true) // 暴露代理对象，解决事务自调用问题
 @Slf4j
 public class LearningApplication {

@@ -40,6 +40,7 @@ import com.tianji.course.service.*;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -64,20 +65,29 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     private final CourseTeacherMapper courseTeacherMapper;
     private final CourseDraftMapper courseDraftMapper;
-    private final ICourseDraftService courseDraftService;
-    @Resource
-    private final RabbitMqHelper rabbitMqHelper;
     private final ICourseCatalogueService courseCatalogueService;
     private final ICourseTeacherService courseTeacherService;
-    private final ICategoryService categoryService;
+
     @Resource
-    private final UserClient userClient;
+    private ICategoryService categoryService;
+
     @Resource
-    private final TradeClient tradeClient;
+    private ICourseDraftService courseDraftService;
+
+    @Autowired(required = false)
+    private RabbitMqHelper rabbitMqHelper;
+
     @Resource
-    private final ExamClient examClient;
+    private UserClient userClient;
+
     @Resource
-    private final LearningClient learningClient;
+    private TradeClient tradeClient;
+
+    @Resource
+    private ExamClient examClient;
+
+    @Resource
+    private LearningClient learningClient;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {DbException.class, Exception.class})

@@ -56,8 +56,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     private final RedisTemplate redisTemplate;
     private final SubjectCategoryMapper subjectCategoryMapper;
-    private final ICourseService courseService;
-    private final ICourseDraftService courseDraftService;
+
+    @Resource
+    private ICourseService courseService;
+
+    @Resource
+    private ICourseDraftService courseDraftService;
 
     @Resource(name = "taskExecutor")
     private Executor taskExecutor;

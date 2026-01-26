@@ -14,7 +14,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @MapperScan("com.tianji.media.mapper")
-@EnableFeignClients(basePackages = "com.tianji.api.client")
 @EnableScheduling
 @SpringBootApplication
 @Slf4j

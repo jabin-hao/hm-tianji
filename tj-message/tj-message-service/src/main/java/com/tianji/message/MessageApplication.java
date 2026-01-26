@@ -19,7 +19,6 @@ import java.net.UnknownHostException;
  **/
 @SpringBootApplication
 @MapperScan("com.tianji.message.mapper")
-@EnableFeignClients(basePackages = "com.tianji.api.client")
 @Slf4j
 public class MessageApplication {
     public static void main(String[] args) throws UnknownHostException {

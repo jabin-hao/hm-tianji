@@ -34,7 +34,7 @@ public class ElasticsearchConfig {
     @Component
     @ConfigurationProperties(prefix = "elasticsearch")
     public static class ElasticsearchProperties {
-        private String host = "localhost";
+        private String host = "116.62.21.219";
         private int port = 9200;
         private String scheme = "http";
 
