@@ -21,7 +21,6 @@ spring:
           - dataId: shared-feign.yaml # 共享 feign配置
           - dataId: shared-mq.yaml # 共享 mq配置
           - dataId: shared-xxljob.yaml # 共享 mq配置
-          - dataId: shared-seata.yaml # 共享 seata配置
 tj:
   swagger:
     enable: true

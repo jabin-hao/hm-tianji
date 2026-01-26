@@ -56,7 +56,6 @@
         <redisson.version>3.24.3</redisson.version>
         <elasticsearch.version>7.17.15</elasticsearch.version>
         <xxl-job-version>2.4.0</xxl-job-version>
-        <seata-version>1.8.0</seata-version>
     </properties>
     <!-- 对依赖包进行管理 -->
     <dependencyManagement>
