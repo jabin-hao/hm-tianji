@@ -77,13 +77,18 @@ public class LearningLessonServiceImpl extends ServiceImpl<LearningLessonMapper,
         //2.保存课程id-用户id-课程过期时间到课程表
         List<LearningLesson> collect = courseInfoList.stream().map((courseInfo) -> {
             LearningLesson learningLesson = new LearningLesson();
+
+            Integer validDuration = courseInfo.getValidDuration();
+            if(validDuration != null && validDuration > 0){
+                LocalDateTime now = LocalDateTime.now();
+                //用数据库时间可能有一点时间偏差，所以使用系统当前时间
+                learningLesson.setCreateTime(now);
+                //过期时间=当前时间+课程有效时间
+                learningLesson.setExpireTime(now.plusMonths(validDuration));
+            }
+            // 填充用户信息
             learningLesson.setCourseId(courseInfo.getId());
             learningLesson.setUserId(userId);
-            LocalDateTime now = LocalDateTime.now();
-            //用数据库时间可能有一点时间偏差，所以使用系统当前时间
-            learningLesson.setCreateTime(now);
-            //过期时间=当前时间+课程有效时间
-            learningLesson.setExpireTime(now.plusMonths(courseInfo.getValidDuration()));
             return learningLesson;
         }).collect(Collectors.toList());
         //3.批量保存课程到课程表，使用代理对象避免事务自调用问题
