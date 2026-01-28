@@ -36,8 +36,8 @@
 
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <tjxt.version>1.0</tjxt.version>
@@ -156,13 +156,11 @@
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>${tencent.cloud.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job-version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <dependencies>
