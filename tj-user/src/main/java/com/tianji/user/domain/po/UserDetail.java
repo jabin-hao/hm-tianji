@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user_detail")
+@TableName("sys_user_detail")
 public class UserDetail implements Serializable {
 
     @Serial
