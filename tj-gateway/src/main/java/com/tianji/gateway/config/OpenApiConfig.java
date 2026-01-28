@@ -1,8 +1,7 @@
 package com.tianji.gateway.config;
 
 import com.tianji.gateway.swagger.GatewaySwaggerResourceProvider;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.gateway.route.RouteLocator;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -14,11 +13,10 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Configuration
-@RequiredArgsConstructor
 public class OpenApiConfig {
 
-    private final RouteLocator routeLocator;
-    private final GatewaySwaggerResourceProvider swaggerResourceProvider;
+    @Resource
+    private GatewaySwaggerResourceProvider swaggerResourceProvider;
 
     @Bean
     public RouterFunction<ServerResponse> openApiRoutes() {

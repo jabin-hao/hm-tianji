@@ -15,8 +15,7 @@ public class AuthProperties implements InitializingBean {
     private Set<String> excludePath;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        // 添加默认不拦截的路径
+    public void afterPropertiesSet() {
         excludePath.add("/error/**");
         excludePath.add("/jwks");
         excludePath.add("/accounts/login");

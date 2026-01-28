@@ -15,13 +15,13 @@ spring:
       config:
         file-extension: yaml
         shared-configs: # 共享配置
-          - data-id: shared-spring.yaml # 共享spring配置
+          - data-id: shared-spring.yaml
             refresh: false
-          - data-id: shared-redis.yaml # 共享redis配置
+          - data-id: shared-redis.yaml
             refresh: false
-          - data-id: shared-mybatis.yaml # 共享mybatis配置
+          - data-id: shared-mybatis.yaml
             refresh: false
-          - data-id: shared-logs.yaml # 共享日志配置
+          - data-id: shared-logs.yaml
             refresh: false
 encrypt:
   key-store:
@@ -48,3 +48,6 @@ tj:
         - /accounts/logout
   jdbc:
     database: tj_auth
+
+knife4j:
+  enable: true

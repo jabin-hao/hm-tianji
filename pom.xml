@@ -94,6 +94,11 @@
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
             <!--ali sdk-->
             <dependency>
                 <groupId>com.aliyun</groupId>
@@ -208,8 +213,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-                        <source>17</source> <!-- depending on your project -->
-                        <target>17</target> <!-- depending on your project -->
+                        <source>21</source> <!-- depending on your project -->
+                        <target>21</target> <!-- depending on your project -->
                     </configuration>
                 </plugin>
             </plugins>

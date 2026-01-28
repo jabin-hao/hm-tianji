@@ -12,17 +12,17 @@ spring:
       config:
         file-extension: yaml
         shared-configs: # 共享配置
-          - data-id: shared-spring.yaml # 共享spring配置
+          - data-id: shared-spring.yaml
             refresh: false
-          - data-id: shared-redis.yaml # 共享redis配置
+          - data-id: shared-redis.yaml
             refresh: false
-          - data-id: shared-mybatis.yaml # 共享mybatis配置
+          - data-id: shared-mybatis.yaml
             refresh: false
-          - data-id: shared-logs.yaml # 共享日志配置
+          - data-id: shared-logs.yaml
             refresh: false
-          - data-id: shared-feign.yaml # 共享feign配置
+          - data-id: shared-feign.yaml
             refresh: false
-          - data-id: shared-mq.yaml # 共享mq配置
+          - data-id: shared-mq.yaml
             refresh: false
 tj:
   swagger:

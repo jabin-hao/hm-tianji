@@ -13,7 +13,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @MapperScan("com.tianji.auth.mapper")
-@SpringBootApplication(exclude = {})
+@SpringBootApplication
 @EnableScheduling
 @EnableFeignClients(basePackages = {"com.tianji.api.client"})
 @Slf4j

@@ -1,7 +1,7 @@
 server:
-  port: 10010  #端口
+  port: 10010
   tomcat:
-    uri-encoding: UTF-8   #服务编码
+    uri-encoding: UTF-8
 spring:
   profiles:
     active: dev
@@ -11,12 +11,12 @@ spring:
     nacos:
       config:
         file-extension: yaml
-        shared-configs: # 共享配置
-          - data-id: shared-spring.yaml # 共享 spring配置
+        shared-configs:
+          - data-id: shared-spring.yaml
             refresh: false
-          - data-id: shared-redis.yaml # 共享 redis配置
+          - data-id: shared-redis.yaml
             refresh: false
-          - data-id: shared-logs.yaml # 共享日志配置
+          - data-id: shared-logs.yaml
             refresh: false
     gateway:
       routes:
@@ -80,7 +80,7 @@ spring:
             - Path=/prs/**
       default-filters:
         - StripPrefix=1
-      globalcors: # 全局的跨域处理
+      globalcors:
         add-to-simple-url-handler-mapping: true # 解决 options请求被拦截问题
         corsConfigurations:
           '[/**]':
@@ -99,3 +99,15 @@ spring:
 logging:
   level:
     com.tianji: debug
+
+knife4j:
+  gateway:
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+    strategy: discover
+    discover:
+      enabled: true
+      version: openapi3
+      excluded-services:
+        - gateway-service

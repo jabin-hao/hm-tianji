@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.servlet.Filter;
@@ -17,14 +18,6 @@ import jakarta.servlet.Filter;
 @ConditionalOnClass({CommonExceptionAdvice.class, Filter.class})
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
-    /**
-     * <h1>通用的 ControllerAdvice异常处理器</h1>
-     */
-//    @Bean
-//    public CommonExceptionAdvice commonExceptionAdvice(){
-//        return new CommonExceptionAdvice();
-//    }
 
     @Bean
     public RequestIdFilter requestIdFilter(){
@@ -42,5 +35,16 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public WrapperResponseBodyAdvice wrapperResponseBodyAdvice(){
         return new WrapperResponseBodyAdvice();
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+
+        registry.addResourceHandler("/doc.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars");
     }
 }

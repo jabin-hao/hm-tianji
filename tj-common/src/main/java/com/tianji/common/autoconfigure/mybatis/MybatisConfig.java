@@ -18,7 +18,7 @@ public class MybatisConfig {
 
     /**
      * @deprecated 存在任务更新数据导致updater写入0或null的问题，暂时废弃
-     * @see MyBatisAutoFillInterceptor 通过自定义拦截器来实现自动注入creater和updater
+     * @see MyBatisAutoFillInterceptor 通过自定义拦截器来实现自动注入 creater 和 updater
      */
     // @Bean
     // @ConditionalOnMissingBean
