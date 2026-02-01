@@ -43,31 +43,28 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler, Ordere
         // 3.按照异常类型进行翻译处理，翻译的结果易于前端理解
         String message;
         int code = FAILED;
-        switch (ex) {
-            case UnauthorizedException e -> {
-                // 登录异常，直接返回状态码
-                return Mono.error(new ResponseStatusException(e.getStatus(), e.getMessage(), e));
-                // 登录异常，直接返回状态码
-            }
-            case CommonException e -> {
-                code = e.getCode();
-                message = e.getMessage();
-            }
-            case NotFoundException notFoundException -> message = "服务不存在";
-            case ResponseStatusException responseStatusException -> message = ex.getMessage();
-            default -> {
-                message = SERVER_INTER_ERROR;
-                // 4.记录日志
-                writeLog(exchange, ex);
-            }
+        if (ex instanceof UnauthorizedException e) {
+            // 登录异常，直接返回状态码
+            return Mono.error(new ResponseStatusException(e.getStatus(), e.getMessage(), e));
+        } else if (ex instanceof CommonException e) {
+            code = e.getCode();
+            message = e.getMessage();
+        } else if (ex instanceof NotFoundException) {
+            message = "服务不存在";
+        } else if (ex instanceof ResponseStatusException) {
+            message = ex.getMessage();
+        } else {
+            message = SERVER_INTER_ERROR;
+            // 4.记录日志
+            writeLog(exchange, ex);
         }
         // 5.设置响应结果为 JSON
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         // 6.封装响应结果并写出
         R<Object> r = R.error(code, message);
         List<String> requestIds = response.getHeaders().get(Constant.REQUEST_ID_HEADER);
-        if (requestIds != null) {
-            r.requestId(requestIds.getFirst());
+        if (requestIds != null && !requestIds.isEmpty()) {
+            r.requestId(requestIds.get(0));
         }
         byte[] resp = JsonUtils.toJsonStr(r).getBytes(StandardCharsets.UTF_8);
         return response.writeWith(

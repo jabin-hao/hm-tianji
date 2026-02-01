@@ -154,4 +154,24 @@ public class WebUtils {
     public static CookieBuilder cookieBuilder(){
         return new CookieBuilder(getRequest(), getResponse());
     }
+
+    // 判断是否为 Swagger 文档请求
+    public static boolean isSwaggerRequest() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return false;
+        }
+        String uri = request.getRequestURI();
+        // 检查直接的 Swagger 请求
+        if (uri.startsWith("/v3/api-docs")
+                || uri.startsWith("/swagger")
+                || "/doc.html".equals(uri)) {
+            return true;
+        }
+        // 检查通过 Gateway 转发的 Swagger 请求（带服务前缀）
+        // 例如: /us/v3/api-docs, /cs/v3/api-docs 等
+        return uri.matches(".*/v3/api-docs.*")
+                || uri.matches(".*/swagger.*")
+                || uri.matches(".*/doc\\.html.*");
+    }
 }

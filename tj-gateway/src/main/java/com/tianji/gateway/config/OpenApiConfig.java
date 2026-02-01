@@ -20,7 +20,7 @@ public class OpenApiConfig {
 
     @Bean
     public RouterFunction<ServerResponse> openApiRoutes() {
-        return route(GET("/v3/api-docs/swagger-config")
+        return route(GET("/v3/api-docs")
                         .and(accept(APPLICATION_JSON)), 
                 serverRequest -> ServerResponse.ok()
                         .contentType(APPLICATION_JSON)

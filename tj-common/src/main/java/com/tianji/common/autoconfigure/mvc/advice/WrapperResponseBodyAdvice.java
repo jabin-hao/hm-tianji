@@ -13,25 +13,39 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 public class WrapperResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+
     @Override
-    public boolean supports(MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-        return returnType.getParameterType() != R.class && WebUtils.isGatewayRequest();
+    public boolean supports(MethodParameter returnType,
+                            @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+
+        if (R.class.isAssignableFrom(returnType.getParameterType())) {
+            return false;
+        }
+
+        if (!WebUtils.isGatewayRequest()) {
+            return false;
+        }
+
+        return !WebUtils.isSwaggerRequest();
     }
 
     @Override
     public Object beforeBodyWrite(
-            Object body, @NonNull MethodParameter returnType, @NonNull MediaType selectedContentType,
+            Object body,
+            @NonNull MethodParameter returnType,
+            @NonNull MediaType selectedContentType,
             @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
-            @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
-        if (request.getURI().getPath().equals("/v2/api-docs")){
-            return body;
-        }
+            @NonNull ServerHttpRequest request,
+            @NonNull ServerHttpResponse response) {
+
         if (body == null) {
             return R.ok().requestId(MDC.get(Constant.REQUEST_ID_HEADER));
         }
-        if(body instanceof R){
+
+        if (body instanceof R) {
             return body;
         }
+
         return R.ok(body).requestId(MDC.get(Constant.REQUEST_ID_HEADER));
     }
 }

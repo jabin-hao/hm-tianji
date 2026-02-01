@@ -12,11 +12,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Configuration
 public class AuthAutoConfiguration {
 
-    /**
-     * 添加了 @ConditionalOnBean(DiscoveryClient.class)：确保只有当 DiscoveryClient bean 存在时才创建 JwtSignerHolder
-     * 添加了 @ConditionalOnClass(StringRedisTemplate.class) 和 @ConditionalOnBean({JwtSignerHolder.class, StringRedisTemplate.class})：确保只有当 StringRedisTemplate 类存在并且相关的 bean 都可用时才创建 AuthUtil
-     * 导入了 @ConditionalOnBean：添加了必要的导入
-     */
     @Bean
     @ConditionalOnClass(DiscoveryClient.class)
     @ConditionalOnBean(DiscoveryClient.class)

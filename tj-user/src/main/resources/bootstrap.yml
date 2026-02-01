@@ -1,7 +1,7 @@
 server:
-  port: 8082  #端口
+  port: 8082
   tomcat:
-    uri-encoding: UTF-8   #服务编码
+    uri-encoding: UTF-8
 spring:
   profiles:
     active: dev
@@ -11,16 +11,16 @@ spring:
     nacos:
       config:
         file-extension: yaml
-        shared-configs: # 共享配置
-          - data-id: shared-spring.yaml # 共享 spring配置
+        shared-configs:
+          - data-id: shared-spring.yaml
             refresh: false
-          - data-id: shared-redis.yaml # 共享 redis配置
+          - data-id: shared-redis.yaml
             refresh: false
-          - data-id: shared-mybatis.yaml # 共享 mybatis配置
+          - data-id: shared-mybatis.yaml
             refresh: false
-          - data-id: shared-logs.yaml # 共享日志配置
+          - data-id: shared-logs.yaml
             refresh: false
-          - data-id: shared-feign.yaml # 共享 feign配置
+          - data-id: shared-feign.yaml
             refresh: false
 tj:
   swagger:

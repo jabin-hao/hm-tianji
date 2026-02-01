@@ -51,7 +51,7 @@ public class AccountAuthFilter implements GlobalFilter, Ordered {
 
         // 3.尝试获取用户信息
         List<String> authHeaders = exchange.getRequest().getHeaders().get(AUTHORIZATION_HEADER);
-        String token = authHeaders == null ? "" : authHeaders.getFirst();
+        String token = (authHeaders == null || authHeaders.isEmpty()) ? "" : authHeaders.get(0);
         
         // 如果AuthUtil不可用，记录警告并直接放行
         if (authUtil.isEmpty()) {

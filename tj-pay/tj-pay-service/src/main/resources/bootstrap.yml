@@ -1,9 +1,9 @@
 server:
-  port: 8087  #端口
+  port: 8087
   tomcat:
-    uri-encoding: UTF-8   #服务编码
+    uri-encoding: UTF-8
   error:
-    include-message: always #返回的响应体带上 message
+    include-message: always
 spring:
   profiles:
     active: dev
@@ -13,14 +13,14 @@ spring:
     nacos:
       config:
         file-extension: yaml
-        shared-configs: # 共享配置
-          - dataId: shared-spring.yaml # 共享 spring配置
-          - dataId: shared-redis.yaml # 共享 redis配置
-          - dataId: shared-mybatis.yaml # 共享 mybatis配置
-          - dataId: shared-logs.yaml # 共享日志配置
-          - dataId: shared-feign.yaml # 共享 feign配置
-          - dataId: shared-mq.yaml # 共享 mq配置
-          - dataId: shared-xxljob.yaml # 共享 mq配置
+        shared-configs:
+          - dataId: shared-spring.yaml
+          - dataId: shared-redis.yaml
+          - dataId: shared-mybatis.yaml
+          - dataId: shared-logs.yaml
+          - dataId: shared-feign.yaml
+          - dataId: shared-mq.yaml
+          - dataId: shared-xxljob.yaml
 tj:
   swagger:
     enable: true

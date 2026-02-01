@@ -3,50 +3,66 @@ package com.tianji.authsdk.resource.config;
 import cn.hutool.core.collection.CollUtil;
 import com.tianji.authsdk.resource.interceptors.LoginAuthInterceptor;
 import com.tianji.authsdk.resource.interceptors.UserInfoInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
+@RequiredArgsConstructor
 @EnableConfigurationProperties(ResourceAuthProperties.class)
 public class ResourceInterceptorConfiguration implements WebMvcConfigurer {
 
     private final ResourceAuthProperties authProperties;
+    private final UserInfoInterceptor userInfoInterceptor;
+    private final LoginAuthInterceptor loginAuthInterceptor;
 
-    @Autowired
-    public ResourceInterceptorConfiguration(ResourceAuthProperties resourceAuthProperties) {
-        this.authProperties = resourceAuthProperties;
-    }
+        private static final List<String> SWAGGER_EXCLUDE_PATHS = List.of(
+            // 支持任意前缀下的文档路径自动放行
+            "/**/v3/api-docs",
+            "/**/v3/api-docs/**",
+            "/**/swagger-ui/**",
+            "/**/swagger-ui.html",
+            "/**/swagger-resources/**",
+            "/**/webjars/**",
+            "/**/doc.html",
+            // 兼容无前缀情况
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/doc.html"
+        );
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 1.添加用户信息拦截器
-        registry.addInterceptor(new UserInfoInterceptor()).order(0);
-        // 2.是否需要做登录拦截
-        if(!authProperties.getEnable()){
-            // 无需登录拦截
+
+        registry.addInterceptor(userInfoInterceptor)
+                .order(0)
+                .excludePathPatterns(SWAGGER_EXCLUDE_PATHS);
+
+        if (!Boolean.TRUE.equals(authProperties.getEnable())) {
             return;
         }
-        // 2.添加登录拦截器
-        InterceptorRegistration registration = registry.addInterceptor(new LoginAuthInterceptor()).order(1);
-        // 2.1.添加拦截器路径
-        if(CollUtil.isNotEmpty(authProperties.getIncludeLoginPaths())){
+
+        InterceptorRegistration registration = registry
+                .addInterceptor(loginAuthInterceptor)
+                .order(1);
+
+        if (CollUtil.isNotEmpty(authProperties.getIncludeLoginPaths())) {
             registration.addPathPatterns(authProperties.getIncludeLoginPaths());
         }
-        // 2.2.添加排除路径
-        if(CollUtil.isNotEmpty(authProperties.getExcludeLoginPaths())){
+
+        if (CollUtil.isNotEmpty(authProperties.getExcludeLoginPaths())) {
             registration.excludePathPatterns(authProperties.getExcludeLoginPaths());
         }
-        // 2.3.排除swagger路径
-        registration.excludePathPatterns(
-                "/v2/**",
-                "/v3/**",
-                "/swagger-resources/**",
-                "/webjars/**",
-                "/doc.html"
-        );
+
+        registration.excludePathPatterns(SWAGGER_EXCLUDE_PATHS);
     }
 }

@@ -24,60 +24,87 @@ spring:
           uri: lb://media-service
           predicates:
             - Path=/ms/**
+          filters:
+            - RewritePath=/ms/(?<segment>.*), /$\{segment}
         - id: as
           uri: lb://auth-service
           predicates:
             - Path=/as/**
           filters:
             - PreserveHostHeader
+            - RewritePath=/as/(?<segment>.*), /$\{segment}
         - id: ds
           uri: lb://data-service
           predicates:
             - Path=/ds/**
+          filters:
+            - RewritePath=/ds/(?<segment>.*), /$\{segment}
         - id: sms
           uri: lb://message-service
           predicates:
             - Path=/sms/**
+          filters:
+            - RewritePath=/sms/(?<segment>.*), /$\{segment}
         - id: us
           uri: lb://user-service
           predicates:
             - Path=/us/**
+          filters:
+            - RewritePath=/us/(?<segment>.*), /$\{segment}
         - id: cs
           uri: lb://course-service
           predicates:
             - Path=/cs/**
+          filters:
+            - RewritePath=/cs/(?<segment>.*), /$\{segment}
         - id: os
           uri: lb://order-service
           predicates:
             - Path=/os/**
+          filters:
+            - RewritePath=/os/(?<segment>.*), /$\{segment}
         - id: ss
           uri: lb://search-service
           predicates:
             - Path=/ss/**
+          filters:
+            - RewritePath=/ss/(?<segment>.*), /$\{segment}
         - id: ls
           uri: lb://learning-service
           predicates:
             - Path=/ls/**
+          filters:
+            - RewritePath=/ls/(?<segment>.*), /$\{segment}
         - id: ps
           uri: lb://pay-service
           predicates:
             - Path=/ps/**
+          filters:
+            - RewritePath=/ps/(?<segment>.*), /$\{segment}
         - id: ts
           uri: lb://trade-service
           predicates:
             - Path=/ts/**
+          filters:
+            - RewritePath=/ts/(?<segment>.*), /$\{segment}
         - id: es
           uri: lb://exam-service
           predicates:
             - Path=/es/**
+          filters:
+            - RewritePath=/es/(?<segment>.*), /$\{segment}
         - id: rs
           uri: lb://remark-service
           predicates:
             - Path=/rs/**
+          filters:
+            - RewritePath=/rs/(?<segment>.*), /$\{segment}
         - id: prs
           uri: lb://promotion-service
           predicates:
             - Path=/prs/**
+          filters:
+            - RewritePath=/prs/(?<segment>.*), /$\{segment}
       default-filters:
         - StripPrefix=1
       globalcors:
@@ -102,12 +129,8 @@ logging:
 
 knife4j:
   gateway:
-    enabled: true
-    tags-sorter: alpha
-    operations-sorter: alpha
-    strategy: discover
+    enabled: true  # 开启聚合功能
+    strategy: discover  # 服务发现模式
     discover:
-      enabled: true
-      version: openapi3
-      excluded-services:
-        - gateway-service
+      enabled: true  # 启用服务发现
+      version: openapi3  # 关键：适配 OpenAPI 3.0，自动请求 /v3/api-docs 🎯

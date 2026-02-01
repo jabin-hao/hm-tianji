@@ -29,6 +29,10 @@ public class WrapperResponseMessageConverter implements HttpMessageConverter<Obj
 
     @Override
     public boolean canWrite(@NonNull Class<?> clazz, MediaType mediaType) {
+        // 排除 Swagger 请求，避免 API 文档被包装
+        if (WebUtils.isSwaggerRequest()) {
+            return false;
+        }
         return WebUtils.isGatewayRequest() && delegate.canWrite(clazz, mediaType);
     }
 

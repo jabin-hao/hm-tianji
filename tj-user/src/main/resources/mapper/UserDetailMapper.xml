@@ -6,16 +6,16 @@
         SELECT u.cell_phone, u.status, u.create_time, u.update_time, u.creater, u.updater,
                u.id, u.username, ud.type, ud.name, ud.gender, ud.icon, ud.email, ud.qq, ud.birthday,
                ud.job, ud.province, ud.city, ud.district, ud.intro, ud.photo, ud.role_id
-        FROM `user` u
-                 LEFT JOIN user_detail ud ON u.id = ud.id
+        FROM `sys_user` u
+                 LEFT JOIN sys_user_detail ud ON u.id = ud.id
         WHERE u.id = #{userId}
     </select>
     <select id="queryByIds" resultType="com.tianji.user.domain.po.UserDetail">
         SELECT u.cell_phone, u.status, u.create_time, u.update_time, u.creater, u.updater,
                u.id, u.username, ud.type, ud.name, ud.gender, ud.icon, ud.email, ud.qq, ud.birthday,
                ud.job, ud.province, ud.city, ud.district, ud.intro, ud.photo, ud.role_id
-        FROM `user` u
-                 LEFT JOIN user_detail ud ON u.id = ud.id
+        FROM `sys_user` u
+                 LEFT JOIN sys_user_detail ud ON u.id = ud.id
         WHERE u.id
         <foreach collection="ids" separator="," item="id" open="in (" close=")">
             #{id}
@@ -25,8 +25,8 @@
         SELECT u.cell_phone, u.status, u.create_time, u.update_time, u.creater, u.updater,
                u.id, u.username, ud.type, ud.name, ud.gender, ud.icon, ud.email, ud.qq, ud.birthday,
                ud.job, ud.province, ud.city, ud.district, ud.intro, ud.photo, ud.role_id
-        FROM `user` u
-                 LEFT JOIN user_detail ud ON u.id = ud.id
+        FROM `sys_user` u
+                 LEFT JOIN sys_user_detail ud ON u.id = ud.id
         ${ew.customSqlSegment}
     </select>
 </mapper>
