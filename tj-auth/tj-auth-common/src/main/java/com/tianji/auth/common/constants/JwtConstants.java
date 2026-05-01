@@ -15,7 +15,7 @@ public class JwtConstants {
     public static final Duration JWT_REMEMBER_ME_TTL = Duration.ofDays(7);
 
     public static final String JWT_ALGORITHM = "rs256";
-    public static final String AUTHORIZATION_HEADER = "authorization";
+    public static final String AUTHORIZATION_HEADER = "v";
     public static final String REFRESH_HEADER = "refresh";
     public static final String ADMIN_REFRESH_HEADER = "admin-refresh";
 

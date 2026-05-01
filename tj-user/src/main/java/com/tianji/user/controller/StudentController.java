@@ -27,19 +27,19 @@ public class StudentController {
     @Resource
     private IStudentService studentService;
 
-    @Operation(description = "分页查询学生信息")
+    @Operation(summary = "分页查询学生信息")
     @GetMapping("/page")
     public PageDTO<StudentPageVo> queryStudentPage(UserPageQuery pageQuery){
         return studentService.queryStudentPage(pageQuery);
     }
 
-    @Operation(description = "学员注册")
+    @Operation(summary="学员注册")
     @PostMapping("/register")
     public void registerStudent(@RequestBody StudentFormDTO studentFormDTO) {
         studentService.saveStudent(studentFormDTO);
     }
 
-    @Operation(description = "修改学员密码")
+    @Operation(summary = "修改学员密码")
     @PutMapping("/password")
     public void updateMyPassword(@RequestBody StudentFormDTO studentFormDTO) {
         studentService.updateMyPassword(studentFormDTO);

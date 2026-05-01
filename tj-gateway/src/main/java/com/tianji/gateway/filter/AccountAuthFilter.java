@@ -4,6 +4,7 @@ import com.tianji.authsdk.gateway.util.AuthUtil;
 import com.tianji.common.domain.R;
 import com.tianji.common.domain.dto.LoginUserDTO;
 import com.tianji.gateway.config.AuthProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -16,24 +17,18 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.tianji.auth.common.constants.JwtConstants.AUTHORIZATION_HEADER;
 import static com.tianji.auth.common.constants.JwtConstants.USER_HEADER;
 
-@Component
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class AccountAuthFilter implements GlobalFilter, Ordered {
 
-    private final Optional<AuthUtil> authUtil;
+    private final AuthUtil authUtil;
     private final AuthProperties authProperties;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
-
-    public AccountAuthFilter(@Autowired(required = false) AuthUtil authUtil, 
-                           AuthProperties authProperties) {
-        this.authUtil = Optional.ofNullable(authUtil);
-        this.authProperties = authProperties;
-    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -53,13 +48,7 @@ public class AccountAuthFilter implements GlobalFilter, Ordered {
         List<String> authHeaders = exchange.getRequest().getHeaders().get(AUTHORIZATION_HEADER);
         String token = (authHeaders == null || authHeaders.isEmpty()) ? "" : authHeaders.get(0);
         
-        // 如果AuthUtil不可用，记录警告并直接放行
-        if (authUtil.isEmpty()) {
-            log.warn("AuthUtil not available, skipping authentication for path: {}", antPath);
-            return chain.filter(exchange);
-        }
-        
-        R<LoginUserDTO> r = authUtil.get().parseToken(token);
+        R<LoginUserDTO> r = authUtil.parseToken(token);
 
         // 4.如果用户是登录状态，尝试更新请求头，传递用户信息
         if(r.success()){
@@ -69,7 +58,7 @@ public class AccountAuthFilter implements GlobalFilter, Ordered {
         }
 
         // 5.校验权限
-        authUtil.get().checkAuth(antPath, r);
+        authUtil.checkAuth(antPath, r);
 
         // 6.放行
         return chain.filter(exchange);

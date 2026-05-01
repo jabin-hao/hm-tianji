@@ -33,23 +33,24 @@ public class CookieBuilder {
 
     /**
      * 构建cookie，会对cookie值用UTF-8做URL编码，避免中文乱码
+     * 核心修正：删除多余的domain自动生成逻辑，仅显式设置合法domain
      */
     public void build(){
         if (response == null) {
             log.error("response为null，无法写入cookie");
             return;
         }
+        // 对value做URL编码，避免中文/特殊字符乱码
         Cookie cookie = new Cookie(name, URLEncoder.encode(value, charset));
+        // 仅当显式设置了合法的domain时，才调用setDomain（核心修正）
         if(StringUtils.isNotBlank(domain)) {
             cookie.setDomain(domain);
-        }else if (request != null) {
-            String serverName = request.getServerName();
-            serverName = StringUtils.subAfter(serverName, ".", false);
-            cookie.setDomain("." + serverName);
         }
+        // 保留原有其他合法配置
         cookie.setHttpOnly(httpOnly);
         cookie.setMaxAge(maxAge);
         cookie.setPath(path);
+        // 日志打印保持原有逻辑，domain为null时正常显示null
         log.debug("生成cookie，编码方式:{}，【{}={}，domain:{};maxAge={};path={};httpOnly={}】",
                 charset.name(), name, value, domain, maxAge, path, httpOnly);
         response.addCookie(cookie);

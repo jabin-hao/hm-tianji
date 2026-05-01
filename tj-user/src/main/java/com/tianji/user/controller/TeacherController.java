@@ -29,7 +29,7 @@ public class TeacherController {
     private ITeacherService teacherService;
 
     @GetMapping("/page")
-    @Operation(description = "分页查询教师信息")
+    @Operation(summary = "分页查询教师信息")
     public PageDTO<TeacherPageVO> queryTeacherPage(UserPageQuery pageQuery){
         return teacherService.queryTeacherPage(pageQuery);
     }
